@@ -1,0 +1,18 @@
+information#this-page-info(data-type="archive")
+
+.gm-title
+    h1= `归档`
+    .desc.t-1.fs-sm.c-t2= `成立以来共撰写了 ${site.posts.length} 篇文章`
+
+.content-area
+    .mb-4
+        .thumbnail 
+            img.lazy-load.img-cover(src=blank_img_data(), alt="cover image", 
+            data-src=url_for(`/img/p/archive.webp`))
+        #archive
+            .loading 
+                .loading-spinner 
+                    div 
+                    div 
+                    div 
+                .loading-notice="正在读取归档数据..."

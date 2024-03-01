@@ -1,0 +1,26 @@
+if page.nolayout 
+    != body
+else
+    doctype
+    html(lang='zh-CN')
+        head
+            meta(charset='utf-8')
+            include _partial/head.pug
+            link(rel="shortcut icon", href="/favicon.ico", type="image/x-icon")
+            !=css('css/main-lite.min.css')
+        body  
+            loading#global-loading 
+                .loading-seven
+                    span
+                    span
+                    span
+                    span
+                    span
+            #content!= body
+                
+            // js
+            !=js('js/index_lite.js')
+    
+            if theme.inject_body 
+                each item in theme.inject_body
+                    !=item

@@ -1,0 +1,30 @@
+{
+  "name": "hexo-theme-justy-pro",
+  "description": "A simple but powerful theme for HEXO",
+  "version": "0.0.1",
+  "author": "Gmero",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://www.gmero.com/",
+    "email": "gmero@foxmail.com"
+  },
+  "main": "package.json",
+  "homepage": "https://www.gmero.com/",
+  "keywords": [
+    "hexo",
+    "theme",
+    "justy",
+    "hexo-theme-justy"
+  ],
+  "scripts": {
+    "test": "cd ../.. && hexo clean && hexo s"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/g-mero/hexo-theme-justy.git"
+  },
+  "dependencies": {
+    "hexo-renderer-pug": "^3.0.0",
+    "hexo-iconify": "^1.1.1"
+  }
+}

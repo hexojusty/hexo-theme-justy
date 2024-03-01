@@ -1,0 +1,94 @@
+information#this-page-info(data-type="post",data-cate=cate_slug(page.categories), data-theme=page.main_color, data-updated=page.updated, data-created=page.date)
+
+.gm-title
+    h1= page.title 
+    .desc.t-1.fs-sm.c-t2 
+        span#time(data-tip='' data-tip-placement="bottom") 
+            i(class=icons('ic:baseline-access-time'))
+            = date(page.date)
+        span 
+            i(class=icons('tabler:pencil'))
+            = text_count(page.content)
+        - var cate = cate_name_path(page.categories)
+        a(href=url_for(cate.path)) 
+            i(class=icons('ic:sharp-bookmark-border'))
+            = cate.name
+        - var tags = page.tags.limit(3).toArray()
+        if tags.length>0
+                each tag in tags 
+                    a(href=url_for(tag.path)) 
+                        = '#'+tag.name
+
+.content-area
+    .mb-4
+        .thumbnail 
+            img.lazy-load.img-cover(src=blank_img_data(), alt="cover image", 
+            data-src=url_for(page.cover||`/img/art/${rand_int(0,8)}.webp`))
+        if page.ai
+            .ai-summary
+                .ai-summary-title
+                    span(class=icons('bi:stars'))
+                    span= "AI摘要"
+                .ai-summary-content
+                    span= page.ai
+        article#article
+            //- 文章
+            != page.content
+        .art-bottom
+            .divider
+            .art-copyright.rounded.bg-main.c-t2
+                div 
+                    span.icons.icons-user
+                    span="文章作者: "+config.author
+                div 
+                    ispan.icons.icons-link
+                    span
+                        !="本文链接:&nbsp;"
+                        span.alink.copy-self= page.permalink
+                div 
+                    span.icons.icons-cc
+                    span
+                        ="版权声明: 本博客所有文章除特别声明外,均采用"
+                        a(href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank") BY-NC-SA 
+                        ="许可协议。转载请注明出处"
+            //- 相关文章                    
+            - var related = rand_posts(2, page)
+            if related 
+                .art-related.p-2 
+                    each post,index in related 
+                        a.card(href=url_for(post.path) title=post.title)
+                            img.lazy-load(data-src=url_for(post.cover||`/img/art/${index%9}.webp`), alt="cover")
+                            .overlay
+                                .t-1.p-3= post.title
+                            .badge 
+                                span(class=icons('ph:thumbs-up-bold'))
+                                span.text="推荐"
+            .on-bottom.c-t2
+                .t-1
+                    span= "上一篇: "
+                    if page.prev 
+                        a(href=page.prev.permalink title=page.prev.title)= page.prev.title 
+                    else 
+                        span= "没有了"
+                .t-1
+                    span= "下一篇: "
+                    if page.next 
+                        a(href=page.next.permalink title=page.next.title )= page.next.title 
+                    else 
+                        span= "没有了"
+
+    
+    //- 评论
+    if page.comments && theme.comment.type
+        .a-comment.content-main.mb-5 
+            .comment-header 
+                i(class=icons('icon-park-outline:comment','after.min.css'))
+                span="评论"
+            .comment-main 
+                #gcomment 
+                    .loading 
+                        .loading-spinner 
+                            div 
+                            div 
+                            div 
+                        .loading-notice="正在加载评论组件..."

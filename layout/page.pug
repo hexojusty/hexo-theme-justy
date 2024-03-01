@@ -1,0 +1,7 @@
+case page.type 
+    when 'about'
+        include _pages/about.pug
+    when 404
+        include _pages/404.pug
+    default 
+        include _pages/default.pug

@@ -1,0 +1,78 @@
+mixin sideWithTo(cate)
+    li 
+        a(href=url_for(cate.path) class="aside-menu-item")
+            span.menu-name= cate.name 
+            span.cate-total-badge= cate.length
+
+mixin sideWithChild(group)
+    li 
+        a(href="#cate-child-"+group.slug class="aside-menu-item collapsed" data-bs-toggle="collapse" role="button")= group.name 
+            i.menu-icon-arrow 
+        .collapse(id="cate-child-"+group.slug data-bs-parent="#cate-child-0")
+            ul.p-1.bg-second 
+                each cate in group.child 
+                    +sideWithTo(cate)
+
+mixin menuWithTo(menu)
+    li 
+        a(href=menu.link class="aside-menu-item")
+            if menu.icon
+                span.menu-icon(class=icons(menu.icon))
+            span.menu-name= menu.name 
+
+mixin menuWithChild(menu)
+    li 
+        a(href="#menu-child-"+menu.id class="aside-menu-item collapsed" data-bs-toggle="collapse" role="button")
+            span.menu-icon(class=icons(menu.icon))
+            span.menu-name= menu.name
+            i.menu-icon-arrow 
+        .collapse(id="menu-child-"+menu.id data-bs-parent="#menu")
+            ul.p-2.small.bg-second
+                each child in menu.children 
+                    li 
+                        a(href=child.link class="aside-menu-item")
+                            span.menu-name= child.name 
+
+
+.bg-main.w-100.left-aside
+    .avatar-area 
+        a(href=url_for("/") aria-label="home")
+            img(alt="", data-src=url_for(theme.avatar), class="rounded-circle mx-auto d-block lazy-load") 
+        div 
+            .text-center.c-t.m-0 #{config.author}
+                i.arrow 
+            .text-center.fs-sm #{theme.one_word}
+    
+    #menu.justy-menu.hide-scrollbar
+        ul.ps-0
+            li 
+                a(href=url_for("/") class="aside-menu-item" id="aside-item-home")
+                    span.menu-icon(class=icons('ant-design:home-outlined'))
+                    span.menu-name 首页
+            - var menus = get_menu()
+            each menu in menus
+                if menu.children
+                    +menuWithChild(menu)
+                else 
+                    +menuWithTo(menu)
+        
+        .divider
+        ul.ps-0 
+            - var cates = cates_all()
+            if cates.length > 0
+                li 
+                    a.aside-menu-item.collapsed(role="button" data-bs-toggle="collapse" href="#cate-child-0")
+                        span.menu-icon(class=icons('ic:baseline-grid-view'))
+                        span.menu-name 分类
+                        i.menu-icon-arrow
+                    #cate-child-0.collapse(data-bs-parent="#menu")
+                        ul.small.p-2.bg-second
+                            each cate in cates
+                                if cate.child
+                                    +sideWithChild(cate)
+                                else 
+                                    +sideWithTo(cate)
+            li 
+                a.aside-menu-item(href=url_for('/archives/'))
+                    span.menu-icon(class=icons('mdi:inbox-full'))
+                    span.menu-name 归档

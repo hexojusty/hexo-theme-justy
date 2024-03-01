@@ -1,0 +1,11 @@
+information#this-page-info(data-type="page-404",data-theme=page.main_color)
+.gm-title 
+    h1= page.title
+    .desc.t-1.fs-sm.c-t2= page.descr || '世界很大，你想先去哪呢'
+
+.content-area
+    .mb-4
+        .thumbnail 
+            img.lazy-load.img-cover(alt="cover image", data-src=url_for(page.cover||`/img/p/404.webp`))
+        //- 文章
+        article#article!= page.content

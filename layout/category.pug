@@ -1,0 +1,10 @@
+information#this-page-info(data-type="cate")
+
+.gm-title
+    h1= `分类 ${page.category} 下的文章`
+    .desc.t-1.fs-sm.c-t2= `该分类下共有${page.posts.length}篇文章`
+
+.arts-wrap.content-area 
+    include _partial/show-posts.pug
+
+include _partial/pagination.pug

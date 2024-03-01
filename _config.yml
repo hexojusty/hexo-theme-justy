@@ -1,0 +1,108 @@
+# 头像
+avatar: img/avatar.webp
+
+# 一言
+one_word: 努力生活，努力热爱
+
+# rss feed 配置
+# 主题自带的rss模板，使用atom协议，默认选择前10篇文章
+# 如果你使用其他插件来实现rss功能，可以将 enable 设置为 false
+rss:
+  enable: true
+  limit: 10
+  path: feed.xml
+  truncate: 200
+
+# 菜单, 显示在左侧边栏上部
+menu:
+  网盘:
+    icon: tabler:cloud
+    link: https://pan.gmero.com
+  关于:
+    icon: tabler:at
+    children:
+      关于我: /about
+      服务状态: https://status.sxl.cc
+
+# 左侧边栏底部项目
+root_tools:
+  - icon: ic:baseline-rss-feed
+    link: feed.xml
+    label: RSS
+  - icon: ci:github
+    link: https://github.com/hexojusty/hexo-theme-justy
+    label: GitHub
+
+# 插入头部内容
+inject_head:
+  - <link rel="dns-prefetch" href="https://p.gmero.com/" />
+  - <link rel="dns-prefetch" href="https://as.gmero.com/" />
+
+# 插入body后的内容
+inject_body:
+  - >
+    <script>
+    console.log("thanks for your support of JUSTY!");
+    </script>
+
+# 等待页面渲染完毕后执行的js, 由于主题会等待domcontentloaded完成后才会显示页面，因此对于一些网络请求较慢的js，可以放在这里
+# eg:
+# loadJs:
+#   - src: https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js
+#     data-app-id: 1234567890
+loadJs:
+
+# 同上, 但是是css, 而且不支持设置attributes
+# eg:
+# loadCss:
+#   - /css/after.min.css
+loadCss:
+
+# 公告
+notice:
+  date: 2023-10-21
+  content: 博客主题尚在测试阶段, 部分功能还没有完善, 有任何问题可以联系邮箱 gmero@foxmail.com
+
+# 右边栏广告
+ad:
+  - img: img/ad.png
+    ratio: 5:2
+    link: https://www.gmero.com/
+    title: 歌梦罗
+    alt: 歌梦罗|gmero.com
+
+# 评论配置
+comment:
+  # 是否启用评论功能
+  type: false # 目前支持 waline，计划支持artalk
+
+  # 评论的配种的配置
+  waline:
+    serverURL: "https://waline.yours.com"
+
+# 搜索配置
+search:
+  enable: true
+  engine: "algolia" # only support meilisearch or algolia
+  appID: "SKQLSR8Z1F" # meilisearch's host url or algolia's appID
+  apiKey: "bbd30e817b94fcc592f0c037c68cb517"
+  indexName: my-hexo-blog
+  # index中标题的属性名
+  titleProp: title
+  # index中内容的属性名
+  contentProp: content
+  # 链接的属性名
+  linkProp: permalink
+  # 链接前缀（一般当linkProp不是完整链接时使用）
+  linkPrefix:
+
+# 页脚的各种信息
+footer:
+  # 版权信息
+  copyright: © 2023 Gmero. All rights reserved.
+  # ICP备案信息 eg 皖ICP备20010301号
+  beian_icp: 皖ICP备20010301号
+  # 公安备案信息 eg 皖公网安备34082702340940号
+  beian_gongan: 皖公网安备34082702340940号
+  # 又拍云联盟展示
+  upyun_lianmeng: true

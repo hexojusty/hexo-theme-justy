@@ -1,0 +1,19 @@
+doctype xml
+rss(version='2.0', xmlns:atom='http://www.w3.org/2005/Atom', xmlns:dc='http://purl.org/dc/elements/1.1/')
+  channel
+    title= config.title
+    description= config.description || 'Rss feed on ' + config.title + ', powered by hexo-theme-justy'
+    link= config.url
+    generator= 'hexo-theme-justy'
+    language= config.language
+    managingEditor= config.author
+    lastBuildDate= page.lastBuildDate
+    atom:link(href=full_url_for(theme.rss.path || 'feed.xml'), rel='self', type='application/rss+xml')
+    atom:link(href=full_url_for(theme.rss.path || 'feed.xml'), rel='hub', type='application/rss+xml')
+    for post in page.posts
+      item
+        title= post.title
+        link= post.link
+        author= post.author
+        description= truncate(strip_html(post.content), {length: theme.rss.truncate || 200, omission: '...'})
+        pubDate= post.pubDate

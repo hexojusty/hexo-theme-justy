@@ -1,0 +1,26 @@
+body  
+    #root
+        .aside-left.c-t2
+            //- 左边栏
+            !=partial('_partial/aside-left.pug',{},{cache:true})
+            #root-tools 
+                #change-theme.tool-item(data-tip="明暗切换")
+                    i(class=icons('ri:contrast-2-line'))
+                each item in theme.root_tools
+                    a.tool-item(href=url_for(item.link) data-tip=item.label target="_blank")
+                        i(class=icons(item.icon))
+                //- #back-to-top
+                //-     i(class=icons('ic:sharp-rocket'))
+        .page-main
+            .d-flex
+                .page-center
+                    !=partial('_partial/topbar.pug',{},{cache:true})
+                    //- pjax容器
+                    #content
+                .aside-right.pe-0 
+                    //- 右边栏
+                    !=partial('_partial/aside-right.pug',{},{cache:true})
+            //- 页脚
+            !=partial('_partial/footer.pug',{},{cache:true})
+        .nav-mask
+        #pop-container 

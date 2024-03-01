@@ -1,0 +1,26 @@
+meta(name="viewport" content="width=device-width,initial-scale=1")
+meta(name="author" content=config.author)
+meta(name="copyright" content=config.author)
+meta(name="keywords" content=page_keywords())
+!=open_graph()
+
+if is_home_first_page()
+    title=config.title 
+else if is_home()
+    title=`第${page.current}页 - ${config.title}`
+else if is_post()
+    title=`${page.title} - ${config.title}`
+else if is_category()
+    title=`分类 ${page.category} - ${config.title}`
+else if is_tag()
+    title=`标签 ${page.tag} - ${config.title}`
+else if is_archive()
+    title=`归档页 - ${config.title}`
+else 
+    title=`${page.title+" - "||""}${config.title}`
+
+
+
+if theme.inject_head
+    each head in theme.inject_head
+        !=head

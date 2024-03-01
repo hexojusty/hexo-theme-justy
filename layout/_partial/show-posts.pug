@@ -1,0 +1,87 @@
+mixin postInfo(art, type)
+    a.art-title.t-1(href=art.url, title=art.title)= art.title 
+    if type && art.tags.length>0
+        .art-tags 
+            each tag in art.tags 
+                a(href=url_for(tag.path))= '#'+tag.name
+    .desc-text= art.excerpt 
+    .art-bottom-info.t-1(title="最后更新于 "+date(art.updated)) 
+        div= date(art.date)
+        a.before-sep(href=url_for(art.cate.path))= art.cate.name
+        .before-sep= art.textCount+"字"
+        if !type && art.tags.length>0
+            .art-tags.before-sep 
+                each tag in art.tags 
+                    a(href=url_for(tag.path))= '#'+tag.name
+
+mixin overlaymode(art)
+    div(class=`link-wrap type-0`)
+        a.art-ext(href=art.url)
+            img.lazy-load(alt="cover img" data-src=art.cover)
+            .overlay
+        .art-text
+            +postInfo(art)
+            if art.top
+                .badge
+                    span(class=icons('ph:push-pin-bold'))
+                    span.text= "置顶"
+
+mixin leftimgmode(art)
+    div(class=`link-wrap type-1`)
+        a.art-ext(href=art.url title="阅读全文")
+            img.lazy-load(alt="cover img" data-src=art.cover)
+            .overlay!= `<span class="icons icons-arrow-right"></span>`
+        .art-text
+            +postInfo(art)
+            if art.top
+                .badge
+                    span(class=icons('ph:push-pin-bold'))
+                    span.text= "置顶"
+
+mixin plaintextmode(art)
+    div(class=`link-wrap type-2`)
+        .art-text
+            +postInfo(art,1)
+            if art.top
+                .badge
+                    span(class=icons('ph:push-pin-bold'))
+                    span.text= "置顶"
+        a.art-ext(href=art.url title="阅读全文") 
+            .overlay!= `<span class="icons icons-arrow-right"></span>`
+        
+- const rand = rand_int(0,9)
+each article, index in page.posts.data 
+    .art-card
+        -   
+            const cover = url_for(article.cover || `/img/art/${(rand+index)%9}.webp`)
+            let mode = article.cover_mode
+
+            if (mode === undefined) {
+                if (article.cover) {
+                    mode = 0
+                } else if (index%2==0 ) {
+                    mode = 1
+                } else {
+                    mode = 2
+                }
+            }
+            
+            const art = {
+                title: article.title, 
+                date: article.date,
+                updated: article.updated,
+                top: article.top,
+                excerpt: truncate(`${article.excerpt || strip_html(article.content)}`,{length: 120}),
+                cate: cate_name_path(article.categories),
+                textCount: text_count(article.content),
+                url: url_for(article.path),
+                cover: cover,
+                tags: article.tags ? article.tags.limit(3).toArray() : []
+            }
+        case mode 
+            when 0
+                +overlaymode(art)
+            when 1
+                +leftimgmode(art)
+            default 
+                +plaintextmode(art)

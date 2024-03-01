@@ -1,0 +1,72 @@
+mixin recommendList(dataList, from)
+    each data, index in dataList 
+        .sider-article-item.rounded 
+            a(href=url_for(data.path))
+                .art-img
+                    img.img-fluid.lazy-load(data-src=url_for(`/img/smallart/${from ? index%5 + 5 : index%5}.svg`), alt="article")
+                .art-content 
+                    .c-t2.t-1= cate_name_path(data.categories).name
+                    .art-title.t-2= data.title
+
+mixin emptyItem
+    .empty 
+        .art-img.sk 
+        .art-content
+            .sk
+            .sk
+
+.bg-main.h-100.w-100.right-aside 
+
+    if site.posts.length > 5
+        //- recommend
+        #recommend.right-aside-item
+            .nav.nav-tabs(role="tablist")
+                button.active(data-bs-toggle="tab" data-bs-target="#nav-status" role="tab" 
+                aria-label="本页信息" type="button" data-tip="本页信息") 
+                    span(class=icons('mdi:signal'))
+                button(data-bs-toggle="tab" data-bs-target="#nav-comments" role="tab" 
+                aria-label="最新评论" type="button" data-tip="最新评论") 
+                    span.icons.icons-comment
+                button(data-bs-toggle="tab" data-bs-target="#nav-rand-arts" role="tab" 
+                aria-label="随机文章" type="button" data-tip="随机文章") 
+                    span.icons.icons-sync
+                span.tab-slider
+                
+            .tab-content 
+                #nav-status.tab-pane.fade.show.active(role="tabpanel" tabindex="0")
+                    +recommendList(rand_posts(3))
+                    #site-info.aside-content.c-t2
+                #nav-comments.tab-pane.fade(role="tabpanel" tabindex="0")
+                    .is-loading 
+                        +emptyItem
+                        +emptyItem
+                        +emptyItem
+                        +emptyItem
+                        +emptyItem
+                    
+                #nav-rand-arts.tab-pane.fade(role="tabpanel" tabindex="0")
+                    .is-loading 
+                        +emptyItem
+                        +emptyItem
+                        +emptyItem
+                        +emptyItem
+                        +emptyItem
+
+    .r-st
+        if site.posts.length > 5
+            .divider
+        //- 目录
+        .right-aside-item.article-toc.d-none
+            .aside-title 目录
+            #art-toc.aside-content.list-unstyled
+        
+        //- 标签
+        if site.tags.length > 3
+            .right-aside-item
+                .aside-title 标签云
+                .aside-content!= cloudTags({limit: 40})
+
+        //- 广告
+        if theme.ad 
+            .right-aside-item(style='margin-top:2rem')!= ads(theme.ad)
+                
